@@ -20,7 +20,9 @@
 
 ## Rappel express — Démarrer frida-server sur Android
 Avant de commencer, il est indispensable de s'assurer que Frida et `adb` sont bien configurés. 
+
 ![Version Frida](images/rappel_frida_version.png)
+
 ![ADB Devices](images/rappel_adb_devices.png)
 
 Le serveur doit être lancé en tâche de fond sur l'appareil :
@@ -44,6 +46,7 @@ Les applications utilisent différentes méthodes pour détecter un environnemen
 
 ### Étape 1 – Démarrage et repérage du package
 La première étape consiste à identifier le nom du package cible sur l'appareil. Nous utilisons la commande `frida-ps -Uai` pour lister toutes les applications installées et trouver notre cible (ici `owasp.mstg.uncrackable2`).
+
 ![Repérage du package](images/etape1_package_discovery.png)
 
 ### Étape 2 – Script Frida (bypass Java) prêt à l’emploi
@@ -75,7 +78,9 @@ Nous lançons notre script Frida en injectant le bypass dès le démarrage (`spa
 frida -U -f owasp.mstg.uncrackable2 -l bypass.js --no-pause
 ```
 La console affiche le succès des hooks. Les vérifications `File.exists` et `Build.TAGS` sont neutralisées et les chemins bloqués apparaissent dans les logs.
+
 ![Bypass chargé](images/etape5_script_bypass_loaded.png)
+
 ![Hooks actifs en validation](images/validation_hooks_active.png)
 
 L'application cible se lance normalement, l'alerte de root est contournée avec succès.
@@ -85,7 +90,9 @@ L'application cible se lance normalement, l'alerte de root est contournée avec 
 ## Dépannage (FAQ)
 
 - **Permission Denied ou SELinux bloquant** : Lors du lancement de `frida-server` sur certains terminaux ou émulateurs, SELinux peut bloquer l'exécution.
+
   ![Erreur SELinux](images/depannage_selinux.png)
+
   *Solution* : Passez SELinux en mode permissif avec `adb shell su -c "setenforce 0"`.
 - **Application qui crash (Failed to spawn)** : Vérifiez que l'application est bien compatible avec l'architecture de l'émulateur et que votre script JS ne contient pas d'erreurs de syntaxe qui font planter le thread principal.
 
